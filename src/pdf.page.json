@@ -1,0 +1,63 @@
+{
+    "width": 100,
+    "height": 100,
+    "content": {
+        "text": [
+            {
+                "font": {
+                    "family": "Times",
+                    "size": 10
+                },
+                "position": {
+                    "X": 10,
+                    "Y": 9
+                },
+                "text": "Test"
+            }
+        ],
+        "link": [
+            {
+                "link": "https://github.com/sunriax",
+                "text": "Test",
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "size": {
+                    "width": 10,
+                    "height": 10
+                }
+            }
+        ],
+        "image": [
+            {
+                "path": "./Test.png",
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "size": {
+                    "width": 50,
+                    "height": 50
+                }
+            }
+        ],
+        "rectangle": [
+            {
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "style": {
+                    "rendering": "D",
+                    "corner": false,
+                    "radius": 0
+                }
+            }
+        ]
+    }
+}
