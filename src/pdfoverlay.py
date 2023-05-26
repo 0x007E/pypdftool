@@ -62,9 +62,12 @@ def pdfoverlay_main(argv):
     argumentParser.add_argument("-l", "--overlay", required=True, help="Overlay PDF file")
     argumentParser.add_argument("-p", "--pages", default=[], nargs='+', type=int, required=False, help="Overlay Pages")
     argumentParser.add_argument("-o", "--output", required=True, help="PDF output filename")
+    argumentParser.add_argument("-v", "--verbose", action="store_true", help="Show whats going on")
 
     args = argumentParser.parse_args()
-    print(filename, "args=%s" % args)
+
+    if(args.verbose):
+        print(filename, "args=%s" % args)
 
     try:
         if(not args.pages):

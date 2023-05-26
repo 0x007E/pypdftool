@@ -14,6 +14,7 @@ from data.text import Text
 from data.link import Link
 from data.image import Image
 from data.rectangle import Rectangle
+from data.style import *
 
 class PDFPage:
     def __init__(self, size: Size):
@@ -60,9 +61,12 @@ def pdfpage_main(argv):
     argumentParser.add_argument("-c", "--config", required=True, help="JSON configuration file")
     argumentParser.add_argument("-o", "--output", required=True, help="PDF output filename")
     argumentParser.add_argument("-f", "--force", action="store_true", help="Overwrite existing output")
-    
+    argumentParser.add_argument("-v", "--verbose", action="store_true", help="Show whats going on")
+
     args = argumentParser.parse_args()
-    print(filename, "args=%s" % args)
+
+    if(args.verbose):
+        print(filename, "args=%s" % args)
 
     try:
         if(os.path.exists(args.config)):

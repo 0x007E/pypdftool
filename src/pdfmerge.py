@@ -41,9 +41,12 @@ def pdfmerge_main(argv):
     argumentParser = argparse.ArgumentParser()
     argumentParser.add_argument("-i", "--input", default=[], nargs='*', required=True, help="Input file(s)")
     argumentParser.add_argument("-o", "--output", required=True, help="PDF output filename")
+    argumentParser.add_argument("-v", "--verbose", action="store_true", help="Show whats going on")
 
     args = argumentParser.parse_args()
-    print(filename, "args=%s" % args)
+
+    if(args.verbose):
+        print(filename, "args=%s" % args)
 
     try:
         pdf: PDFMerge=PDFMerge(args.output)
