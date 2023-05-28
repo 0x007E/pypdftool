@@ -1,8 +1,6 @@
-from data.content import ContentSize
-from drawing.font import Font
-from drawing.position import Position
+from data.element import ElementSize
 
-class Link (ContentSize):
+class Link (ElementSize):
     @property
     def link(self) -> str:
         return self.__link

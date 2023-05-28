@@ -1,9 +1,7 @@
-from data.content import ContentSize
-from drawing.font import Font
-from drawing.position import Position
+from data.element import ElementSize
 from data.style import RectangleStyle
 
-class Rectangle (ContentSize):
+class Rectangle (ElementSize):
     @property
     def style(self) -> RectangleStyle:
         return self.__style

@@ -31,8 +31,11 @@ python ./pdfpage.py -c ./pdf.page.json -o ./Test.pdf -f
 ### Python usage
 
 ``` python
-# Create a blank page
+# Create a blank page with size
 page = PDFPage(Size(200, 200))
+
+# Or create a blank page with format
+page = PDFPage(Format(PageType.A4, Orientation.P))
 
 # Add a text
 text.position = Position(10, 10)
@@ -56,7 +59,104 @@ rectangle.style = RectangleStyle(Rendering.D)
 rectangle.position = Position(10,20)
 rectangle.size = Size(10, 10)
 
-page.add_text(text)
+# Get output as byte array
+arr: bytearray = page.output()
+
+# Or write pdf page
+page.write("Output.pdf")
+```
+
+#### Create from JSON file
+
+``` json
+{
+    "size": {
+        "width": 100.22,
+        "height": 150.22
+    },
+    "format": {
+        "pagetype": "A4",
+        "orientation": "L"
+    },
+    "content": {
+        "text": [
+            {
+                "font": {
+                    "family": "Times",
+                    "size": 10
+                },
+                "position": {
+                    "X": 10,
+                    "Y": 9
+                },
+                "text": "Test"
+            }
+        ],
+        "link": [
+            {
+                "link": "https://github.com/sunriax",
+                "text": "Test",
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "size": {
+                    "width": 10,
+                    "height": 10
+                }
+            }
+        ],
+        "image": [
+            {
+                "path": "./Test.png",
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "size": {
+                    "width": 50,
+                    "height": 50
+                }
+            }
+        ],
+        "rectangle": [
+            {
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "style": {
+                    "rendering": "D",
+                    "corner": false,
+                    "radius": 0
+                }
+            }
+        ]
+    }
+}
+```
+
+> Use size or format
+
+``` python
+with open("data.json", "rb") as fp:
+    config = json.loads(fp.read(), object_hook=lambda d: SimpleNamespace(**d)) 
+
+    if(hasattr(config, f"{Size.__name__.lower()}")):
+        size: Size = Size(config.size.width, config.size.height)
+        page = PDFPage(size)
+    elif(hasattr(config, f"{Format.__name__.lower()}")):
+        format: Format = Format(config.format.pagetype, config.format.orientation)
+        page = PDFPage(format)
+    else:
+        raise NameError(args.config)
+
+    page.create(config.content)
+    page.write("Test.pdf", False)
 ```
 
 ## PDFoverlay

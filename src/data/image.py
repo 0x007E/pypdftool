@@ -1,9 +1,7 @@
 import os
-from data.content import ContentSize
-from drawing.font import Font
-from drawing.position import Position
+from data.element import ElementSize
 
-class Image (ContentSize):
+class Image (ElementSize):
     @property
     def path(self) -> str:
         return self.__path

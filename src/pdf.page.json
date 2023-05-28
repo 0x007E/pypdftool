@@ -1,6 +1,12 @@
 {
-    "width": 100,
-    "height": 100,
+    "size": {
+        "width": 100.22,
+        "height": 150.22
+    },
+    "format": {
+        "pagetype": "A4",
+        "orientation": "L"
+    },
     "content": {
         "text": [
             {

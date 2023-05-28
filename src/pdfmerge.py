@@ -1,9 +1,9 @@
-import os, sys
+import sys
 import argparse
 
 from pathlib import Path
 from typing import Union
-from pypdf import PdfMerger, PdfReader, PdfWriter
+from pypdf import PdfMerger, PdfReader
 
 class PDFMerge:
     def __init__(self, filename: str):

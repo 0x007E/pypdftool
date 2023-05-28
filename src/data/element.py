@@ -1,7 +1,7 @@
-from drawing.position import Position
-from drawing.size import Size
+from data.position import Position
+from data.size import Size
 
-class Content:
+class Element:
     @property
     def position(self) -> Position:
         return self.__position
@@ -10,7 +10,7 @@ class Content:
     def position(self, value) -> Position:
         self.__position = value
 
-class ContentSize(Content):
+class ElementSize(Element):
     @property
     def size(self) -> Size:
         return self.__size

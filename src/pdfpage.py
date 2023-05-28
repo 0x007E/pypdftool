@@ -1,33 +1,38 @@
-import io
-import os, sys
+import io, os, sys
 import argparse
 from types import SimpleNamespace
+from typing import Union, cast
 from pypdf import PdfReader, PdfWriter
 import json
 
 from pathlib import Path
 from fpdf import FPDF
 
-from drawing.position import Position
-from drawing.size import Size
+from data.size import Size
+from data.format import Format
 from data.text import Text
 from data.link import Link
 from data.image import Image
 from data.rectangle import Rectangle
-from data.style import *
 
 class PDFPage:
-    def __init__(self, size: Size):
-        self.size = size
+    def __init__(self, format: Union[Size, Format]):
         self.pdf = FPDF()
-        self.pdf.add_page(format=(size.width, size.height))
+        if isinstance(format, Size):
+            self.size = format
+            self.pdf.add_page(format=(format.width, format.height))
+        elif isinstance(format, Format):
+            self.pdf.add_page(format=format.pagetype, orientation=format.orientation)
+            self.size = Size(self.pdf.w, self.pdf.h)
+        else:
+            raise ValueError(format)
 
     @property
     def pdf(self) -> FPDF:
         return self.__pdf
     
     @pdf.setter
-    def pdf(self, value):
+    def pdf(self, value) -> FPDF:
         self.__pdf = value
 
     @property
@@ -35,24 +40,55 @@ class PDFPage:
         return self.__size
 
     @size.setter
-    def size(self, value):
+    def size(self, value) -> Size:
         self.__size = value
 
-    def add_text(self, text: Text):
+    def add_text(self, text: Text) -> None:
         self.pdf.set_font(family=text.font.family, size=text.font.size)
         self.pdf.text(text.position.X, text.position.Y, text.text)
 
-    def add_link(self, link: Link):
+    def add_link(self, link: Link) -> None:
         self.pdf.link(link.position.X, link.position.Y, link.size.width, link.size.height, link.link, link.text)
 
-    def add_image(self, image: Image):
+    def add_image(self, image: Image) -> None:
         self.pdf.image(image.path, image.position.X, image.position.Y, image.size.width, image.size.height)
 
-    def add_rectangle(self, rectangle: Rectangle):
+    def add_rectangle(self, rectangle: Rectangle) -> None:
         self.pdf.rect(rectangle.position.X, rectangle.position.Y, rectangle.size.width, rectangle.size.height, rectangle.style.rendering, rectangle.style.corner, rectangle.style.radius)
 
-    def create(self):
+    def create(self, content: object):
+        text: Text
+        for text in content.text:
+            self.add_text(text)
+
+        link: Link
+        for link in content.link:
+            self.add_link(link)
+
+        image: Image
+        for image in content.image:
+            self.add_image(image)
+        
+        rectangle: Rectangle
+        for rectangle in content.rectangle:
+            self.add_rectangle(rectangle)       
+
+    def output(self) -> bytearray:
         return self.pdf.output()
+
+    def write(self, filename: str, force: bool=False):
+        reader = PdfReader(io.BytesIO(self.output()))
+        writer = PdfWriter()
+        writer.append_pages_from_reader(reader)
+
+        if(os.path.exists(filename)):
+            if(not force):
+                raise FileExistsError(filename)
+
+        with open(filename, "wb") as fp:
+            writer.write(fp)
+        
+        writer.close()
 
 def pdfpage_main(argv):
     filename = Path(__file__).name
@@ -70,39 +106,20 @@ def pdfpage_main(argv):
 
     try:
         if(os.path.exists(args.config)):
-            with open(args.config, "rb")as fp:
+            with open(args.config, "rb") as fp:
                 config = json.loads(fp.read(), object_hook=lambda d: SimpleNamespace(**d)) 
-                
-                page = PDFPage(Size(config.width, config.height))
 
-                text: Text
-                for text in config.content.text:
-                    page.add_text(text)
+                if(hasattr(config, f"{Size.__name__.lower()}")):
+                    size: Size = Size(config.size.width, config.size.height)
+                    page = PDFPage(size)
+                elif(hasattr(config, f"{Format.__name__.lower()}")):
+                    format: Format = Format(config.format.pagetype, config.format.orientation)
+                    page = PDFPage(format)
+                else:
+                    raise NameError(args.config)
 
-                link: Link
-                for link in config.content.link:
-                    page.add_link(link)
-
-                image: Image
-                for image in config.content.image:
-                    page.add_image(image)
-
-                rectangle: Rectangle
-                for rectangle in config.content.rectangle:
-                    page.add_rectangle(rectangle)
-
-                reader = PdfReader(io.BytesIO(page.create()))
-                writer = PdfWriter()
-                writer.append_pages_from_reader(reader)
-
-                if(os.path.exists(args.output)):
-                    if(not args.force):
-                        raise FileExistsError(args.output)
-
-                with open(args.output, "wb") as fp:
-                    writer.write(fp)
-                
-                writer.close()
+                page.create(config.content)
+                page.write(args.output, args.force)
 
         else:
             raise FileNotFoundError(args.config)

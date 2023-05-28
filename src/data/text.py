@@ -1,7 +1,11 @@
-from data.content import Content
-from drawing.font import Font
+from data.element import Element
+from data.font import Font
 
-class Text (Content):
+class Text (Element):
+    def __init__(self, font: Font, text: str):
+        self.font = font
+        self.text = text
+
     @property
     def font(self) -> Font:
         return self.__font
