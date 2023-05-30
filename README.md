@@ -62,7 +62,7 @@ rectangle.size = Size(10, 10)
 # Add a circle
 circle.style = BaseStyle(Rendering.D)
 circle.position = Position(10,20)
-circle.size = Size(10, 10)
+circle.radius = 10
 
 # Get output as byte array
 arr: bytearray = page.output()
