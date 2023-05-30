@@ -38,28 +38,33 @@ page = PDFPage(Size(200, 200))
 page = PDFPage(Format(PageType.A4, Orientation.P))
 
 # Add a text
+text: Text = Text(Font("Times", 10), "Text")
 text.position = Position(10, 10)
 text.font = Font("Times", 10)
 text.text = "Test"
 
-# Add a link  
+# Add a link 
+link: Link
 link.position = Position(10,20)
 link.size = Size(10, 10)
 link.link = "https://github.com/0x007e"
 link.text = "0x007e GitHub account"
 
 # Add an image
+image: Image
 image.position = Position(10,20)
 image.size = Size(10, 10)
 image.path = "./Test.png"
 image.text = "Test image"
 
 # Add a rectangle
+rectangle: Rectangle
 rectangle.style = RectangleStyle(Rendering.D)
 rectangle.position = Position(10,20)
 rectangle.size = Size(10, 10)
 
 # Add a circle
+circle: Circle
 circle.style = BaseStyle(Rendering.D)
 circle.position = Position(10,20)
 circle.radius = 10
