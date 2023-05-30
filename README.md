@@ -219,7 +219,7 @@ pdf.add_overlay("Overlay.pdf", [ 0 ])
 pdf.add_overlay("Overlay.pdf", [ 1, 3, 6, 8 ])
 
 # Add watermark to all pages
-pdf.watermark("Overlay.pdf")
+pdf.add_watermark("Overlay.pdf")
 
 # Write to Document
 pdf.write(args.output)
