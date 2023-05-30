@@ -64,6 +64,18 @@
                     "radius": 0
                 }
             }
+        ],
+        "circle": [
+            {
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "radius": 10,
+                "style": {
+                    "rendering": "D"
+                }
+            }
         ]
     }
 }

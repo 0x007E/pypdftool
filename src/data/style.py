@@ -4,13 +4,9 @@ class Rendering(str, Enum):
     D = "D"
     F = "F"
     DF = "DF"
+    FD = "FD"
 
-class RectangleStyle:
-    def __init__(self, rendering: Rendering, corner: bool=False, radius: int=0):
-        self.rendering = rendering
-        self.corner = corner
-        self.radius = radius
-    
+class BaseStyle:
     @property
     def rendering(self) -> Rendering:
         return self.__rendering
@@ -18,6 +14,12 @@ class RectangleStyle:
     @rendering.setter
     def rendering(self, value) -> Rendering:
         self.__rendering = value
+
+class RectangleStyle(BaseStyle):
+    def __init__(self, rendering: Rendering, corner: bool=False, radius: int=0):
+        self.rendering = rendering
+        self.corner = corner
+        self.radius = radius
     
     @property
     def corner(self) -> bool:
@@ -34,3 +36,5 @@ class RectangleStyle:
     @radius.setter
     def radius(self, value) -> int:
         self.__radius = value
+
+

@@ -14,6 +14,7 @@ from data.text import Text
 from data.link import Link
 from data.image import Image
 from data.rectangle import Rectangle
+from data.circle import Circle
 
 class PDFPage:
     def __init__(self, format: Union[Size, Format]):
@@ -56,11 +57,14 @@ class PDFPage:
     def add_rectangle(self, rectangle: Rectangle) -> None:
         self.pdf.rect(rectangle.position.X, rectangle.position.Y, rectangle.size.width, rectangle.size.height, rectangle.style.rendering, rectangle.style.corner, rectangle.style.radius)
 
+    def add_circle(self, circle: Circle) -> None:
+        self.pdf.circle(circle.position.X, circle.position.Y, circle.radius, circle.style.rendering)
+
     def create(self, content: object):
         text: Text
         for text in content.text:
             self.add_text(text)
-
+        
         link: Link
         for link in content.link:
             self.add_link(link)
@@ -71,7 +75,11 @@ class PDFPage:
         
         rectangle: Rectangle
         for rectangle in content.rectangle:
-            self.add_rectangle(rectangle)       
+            self.add_rectangle(rectangle)     
+
+        circle: Circle
+        for circle in content.circle:
+            self.add_circle(circle)    
 
     def output(self) -> bytearray:
         return self.pdf.output()
