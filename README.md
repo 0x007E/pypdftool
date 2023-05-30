@@ -59,6 +59,11 @@ rectangle.style = RectangleStyle(Rendering.D)
 rectangle.position = Position(10,20)
 rectangle.size = Size(10, 10)
 
+# Add a circle
+circle.style = BaseStyle(Rendering.D)
+circle.position = Position(10,20)
+circle.size = Size(10, 10)
+
 # Get output as byte array
 arr: bytearray = page.output()
 
@@ -135,6 +140,18 @@ page.write("Output.pdf")
                     "radius": 0
                 }
             }
+        ],
+        "circle": [
+            {
+                "position": {
+                    "X": 10,
+                    "Y": 10
+                },
+                "radius": 10,
+                "style": {
+                    "rendering": "D"
+                }
+            }
         ]
     }
 }
@@ -167,23 +184,27 @@ Overlay a PDF page in a PDF document
 python ./pdfoverlay.py -h
 ```
 
-| Short | Expand    | Description           |
-|-------|-----------|-----------------------|
-| -h    | --help    | Help menu             |
-| -v    | --verbose | Enable verbosity      |
-| -i    | --input   | PDF document          |
-| -l    | --overlay | Overlay PDF page      |
-| -o    | --output  | Output PDF file       |
-| -p    | --pages   | Pages where overlay page should be layed on empty or 0=all pages |
+| Short | Expand      | Description           |
+|-------|-------------|-----------------------|
+| -h    | --help      | Help menu             |
+| -v    | --verbose   | Enable verbosity      |
+| -i    | --input     | PDF document          |
+| -p    | --page      | Overlay PDF page      |
+| -o    | --output    | Output PDF file       |
+| -n    | --numbers   | Pages where overlay page should be layed on empty or 0=all pages |
+| -w    | --watermark | Add page as watermark |
 
 ### CLI-Usage
 
 ``` bash
 # Overlay page on all document pages
-python ./pdfoverlay.py -i ./Document.pdf -l Overlay.pdf -o ./DO.pdf
+python ./pdfoverlay.py -i ./Document.pdf -p Overlay.pdf -o ./DO.pdf
 
 # Overlay page on selected document pages
-python ./pdfoverlay.py -i ./Document.pdf -l Overlay.pdf -o ./DO.pdf -p 1 3 4 8
+python ./pdfoverlay.py -i ./Document.pdf -p Overlay.pdf -o ./DO.pdf -n 1 3 4 8
+
+# Underlay page as watermark
+python ./pdfoverlay.py -i ./Document.pdf -p Overlay.pdf -o ./DO.pdf -w
 ```
 ### Python usage
 
@@ -196,6 +217,9 @@ pdf.add_overlay("Overlay.pdf", [ 0 ])
 
 # Selected pages
 pdf.add_overlay("Overlay.pdf", [ 1, 3, 6, 8 ])
+
+# Add watermark to all pages
+pdf.watermark("Overlay.pdf")
 
 # Write to Document
 pdf.write(args.output)
