@@ -1,5 +1,5 @@
 import os
-from data.element import ElementSize
+from .element import ElementSize
 
 class Image (ElementSize):
     @property

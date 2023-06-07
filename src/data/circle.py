@@ -1,5 +1,5 @@
-from data.element import Element
-from data.style import BaseStyle
+from .element import Element
+from .style import BaseStyle
 
 class Circle (Element):
     @property

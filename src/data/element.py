@@ -1,5 +1,5 @@
-from data.position import Position
-from data.size import Size
+from .position import Position
+from .size import Size
 
 class Element:
     @property

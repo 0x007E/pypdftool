@@ -1,4 +1,4 @@
-from data.element import ElementSize
+from .element import ElementSize
 
 class Link (ElementSize):
     @property

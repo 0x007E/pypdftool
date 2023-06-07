@@ -1,5 +1,5 @@
-from data.element import ElementSize
-from data.style import RectangleStyle
+from .element import ElementSize
+from .style import RectangleStyle
 
 class Rectangle (ElementSize):
     @property

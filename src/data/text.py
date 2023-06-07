@@ -1,5 +1,5 @@
-from data.element import Element
-from data.font import Font
+from .element import Element
+from .font import Font
 
 class Text (Element):
     def __init__(self, font: Font, text: str):

@@ -26,7 +26,7 @@ class PDFPage:
             self.pdf.add_page(format=format.pagetype, orientation=format.orientation)
             self.size = Size(self.pdf.w, self.pdf.h)
         else:
-            raise ValueError(format)
+            raise Exception(f"Invalid type or value ({Size.__name__} or {Format.__name__} required)")
 
     @property
     def pdf(self) -> FPDF:

@@ -18,7 +18,7 @@ class BaseStyle:
     def rendering(self, value) -> Rendering:
         self.__rendering = value
 
-class RectangleStyle(BaseStyle()):
+class RectangleStyle(BaseStyle):
     def __init__(self, rendering: Rendering, corner: bool=False, radius: int=0):
         self.rendering = rendering
         self.corner = corner
