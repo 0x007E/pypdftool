@@ -8,13 +8,13 @@ import json
 from pathlib import Path
 from fpdf import FPDF
 
-from data.size import Size
-from data.format import Format
-from data.text import Text
-from data.link import Link
-from data.image import Image
-from data.rectangle import Rectangle
-from data.circle import Circle
+from .data.size import Size
+from .data.format import Format
+from .data.text import Text
+from .data.link import Link
+from .data.image import Image
+from .data.rectangle import Rectangle
+from .data.circle import Circle
 
 class PDFPage:
     def __init__(self, format: Union[Size, Format]):
