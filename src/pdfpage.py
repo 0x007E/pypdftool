@@ -23,7 +23,7 @@ class PDFPage:
             self.size = format
             self.pdf.add_page(format=(format.width, format.height))
         elif isinstance(format, Format):
-            self.pdf.add_page(format=format.pagetype, orientation=format.orientation)
+            self.pdf.add_page(format=format.pagetype.value, orientation=format.orientation.value)
             self.size = Size(self.pdf.w, self.pdf.h)
         else:
             raise Exception(f"Invalid type or value ({Size.__name__} or {Format.__name__} required)")
