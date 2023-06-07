@@ -1,7 +1,7 @@
 import io, os, sys
 import argparse
 from types import SimpleNamespace
-from typing import Union, cast
+from typing import Union
 from pypdf import PdfReader, PdfWriter
 import json
 
